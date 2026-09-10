@@ -42,6 +42,10 @@ jobs:
       - name: Generate Android assets
         run: npx capacitor-assets generate --android
         
+      - name: Check generated icons
+        run: |
+          find android/app/src/main/res -type f | grep -E 'mipmap|ic_launcher' || true
+        
       - name: Sync Capacitor
         run: npx cap sync android
 
