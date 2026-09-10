@@ -19,7 +19,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -32,40 +31,33 @@ jobs:
 
       - name: Build web application
         run: npm run build
-        
+
       - name: Install Capacitor Assets
         run: npm install --save-dev @capacitor/assets
-        
+
       - name: Add Android platform
         run: npx cap add android
-        
+
       - name: Generate Android assets
         run: npx capacitor-assets generate --android
-        
-      - name: Verify generated icon
-        run: |
-          echo "=== ORIGINAL ICON ==="
-          file resources/icon.png
-          sha256sum resources/icon.png
 
-          echo "=== GENERATED ICON ==="
-          file android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-          sha256sum android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-          echo "=== GENERATED ROUND ICON ==="
-          sha256sum android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
-
-      - name: Check Android Manifest icon
+      - name: Replace launcher icons with original icon
         run: |
-          echo "=== ICON CONFIGURATION ==="
-          grep -nE 'android:icon|android:roundIcon' android/app/src/main/AndroidManifest.xml || true
-          echo "=== MANIFEST ==="
-          cat android/app/src/main/AndroidManifest.xml
-        
-      - name: Check generated icons
-        run: |
-          find android/app/src/main/res -type f | grep -E 'mipmap|ic_launcher' || true
-        
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+
+          convert resources/icon.png -resize 48x48 android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          convert resources/icon.png -resize 72x72 android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+          convert resources/icon.png -resize 96x96 android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          convert resources/icon.png -resize 144x144 android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          convert resources/icon.png -resize 192x192 android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+
+          cp android/app/src/main/res/mipmap-mdpi/ic_launcher.png android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png
+          cp android/app/src/main/res/mipmap-hdpi/ic_launcher.png android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png
+          cp android/app/src/main/res/mipmap-xhdpi/ic_launcher.png android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
+          cp android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
+          cp android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+
       - name: Sync Capacitor
         run: npx cap sync android
 
