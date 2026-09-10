@@ -32,10 +32,16 @@ jobs:
 
       - name: Build web application
         run: npm run build
-
+        
+      - name: Install Capacitor Assets
+        run: npm install --save-dev @capacitor/assets
+        
       - name: Add Android platform
         run: npx cap add android
-
+        
+      - name: Generate Android assets
+        run: npx capacitor-assets generate --android
+        
       - name: Sync Capacitor
         run: npx cap sync android
 
