@@ -41,6 +41,13 @@ jobs:
         
       - name: Generate Android assets
         run: npx capacitor-assets generate --android
+
+      - name: Check Android Manifest icon
+        run: |
+          echo "=== ICON CONFIGURATION ==="
+          grep -nE 'android:icon|android:roundIcon' android/app/src/main/AndroidManifest.xml || true
+          echo "=== MANIFEST ==="
+          cat android/app/src/main/AndroidManifest.xml
         
       - name: Check generated icons
         run: |
