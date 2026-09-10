@@ -41,6 +41,19 @@ jobs:
         
       - name: Generate Android assets
         run: npx capacitor-assets generate --android
+        
+      - name: Verify generated icon
+        run: |
+          echo "=== ORIGINAL ICON ==="
+          file resources/icon.png
+          sha256sum resources/icon.png
+
+          echo "=== GENERATED ICON ==="
+          file android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+          sha256sum android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+
+          echo "=== GENERATED ROUND ICON ==="
+          sha256sum android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
 
       - name: Check Android Manifest icon
         run: |
