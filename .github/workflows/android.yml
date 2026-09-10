@@ -61,6 +61,23 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync android
 
+      - name: Remove adaptive launcher icons
+        run: |
+          rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+          rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+
+      - name: Verify final launcher icons
+        run: |
+          echo "=== FINAL ICON FILES ==="
+          find android/app/src/main/res -type f | grep -E "ic_launcher" | sort
+
+          echo "=== ICON SIZES ==="
+          file android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          file android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+          file android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          file android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          file android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+
       - name: Build APK
         working-directory: android
         run: |
