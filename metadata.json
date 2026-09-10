@@ -1,0 +1,6 @@
+{
+  "name": "منارة الجزائر - دليل المدارس القرآنية والمساجد",
+  "description": "قاعدة بيانات وطنية شاملة للمدارس القرآنية والزوايا والمساجد عبر الجزائر مع نظام تحديد المواقع، الإدارة التعليمية، الاختبارات التكيفية والتواصل",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
